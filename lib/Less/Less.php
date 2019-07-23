@@ -9015,7 +9015,10 @@ class Less_Visitor_toCSS extends Less_VisitorReplacing{
 
 
         // Compile rules and rulesets
-        $nodeRuleCnt = count($rulesetNode->rules);
+		$nodeRuleCnt = "";
+		if(is_array($rulesetNode->rules)) {	
+			$nodeRuleCnt = count($rulesetNode->rules);
+		} 
         for( $i = 0; $i < $nodeRuleCnt; ){
             $rule = $rulesetNode->rules[$i];
 
@@ -9357,45 +9360,6 @@ class Less_Exception_Chunk extends Less_Exception_Parser{
         $this->genMessage();
     }
 
-
-    /**
-     * See less.js chunks()
-     * We don't actually need the chunks
-     *
-     */
-    function Chunks(){
-        $level = 0;
-        $parenLevel = 0;
-        $lastMultiCommentEndBrace = null;
-        $lastOpening = null;
-        $lastMultiComment = null;
-        $lastParen = null;
-
-        for( $this->parserCurrentIndex = 0; $this->parserCurrentIndex < $this->input_len; $this->parserCurrentIndex++ ){
-            $cc = $this->CharCode($this->parserCurrentIndex);
-            if ((($cc >= 97) && ($cc <= 122)) || ($cc < 34)) {
-                // a-z or whitespace
-                continue;
-            }
-
-        }
-
-        if( $level !== 0 ){
-            if( ($lastMultiComment > $lastOpening) && ($lastMultiCommentEndBrace > $lastMultiComment) ){
-                return $this->fail("missing closing `}` or `*/`", $lastOpening);
-            } else {
-                return $this->fail("missing closing `}`", $lastOpening);
-            }
-        } else if ( $parenLevel !== 0 ){
-            return $this->fail("missing closing `)`", $lastParen);
-        }
-
-
-        //chunk didn't fail
-
-
-        //$this->emitChunk(true);
-    }
 
     function CharCode($pos){
         return ord($this->input[$pos]);
