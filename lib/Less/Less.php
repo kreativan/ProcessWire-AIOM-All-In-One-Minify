@@ -5746,7 +5746,9 @@ class Less_Tree_Import extends Less_Tree{
 
             }else{
                 //otherwise, the file should be relative to the server root
-                $import_dirs[ $this->currentFileInfo['entryPath'] ] = $this->currentFileInfo['entryUri'];
+
+                // ivm - php 7.4 fix (uncomment to rever back to original)
+                // $import_dirs[ $this->currentFileInfo['entryPath'] ] = $this->currentFileInfo['entryUri'];
 
                 //if the user supplied entryPath isn't the actual root
                 $import_dirs[ $_SERVER['DOCUMENT_ROOT'] ] = '';
