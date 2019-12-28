@@ -5085,8 +5085,15 @@ class Less_Tree_Dimension extends Less_Tree{
             }else{
                 $other = $other->convertTo( $this->unit->usedUnits());
 
+               /* ivm: OLD
                 if( Less_Parser::$options['strictUnits'] && $other->unit->toString() !== $unit->toCSS() ){
                     throw new Less_Exception_Compiler("Incompatible units. Change the units or use the unit function. Bad units: '".$unit->toString() . "' and ".$other->unit->toString()+"'.");
+                }
+                */
+
+                // for php 8+
+                if( Less_Parser::$options['strictUnits'] && $other->unit->toString() !== $unit->toCSS() ){
+                    throw new Less_Exception_Compiler("Incompatible units. Change the units or use the unit function. Bad units: '".$unit->toString() . "' and ".$other->unit->toString()."'.");
                 }
 
                 $value = Less_Functions::operate( $op, $this->value, $other->value);
@@ -7789,8 +7796,14 @@ class Less_Tree_Mixin_Call extends Less_Tree{
                 $defaultResult = $defFalse;
             } else {
                 $defaultResult = $defTrue;
+                /* ivm: OLD
                 if( ($count[$defTrue] + $count[$defFalse]) > 1 ){
                     throw Exception( 'Ambiguous use of `default()` found when matching for `'. $this->format($args) + '`' );
+                }
+                */
+                // for php 8+
+                if( ($count[$defTrue] + $count[$defFalse]) > 1 ){
+                    throw Exception( 'Ambiguous use of `default()` found when matching for `'. $this->format($args) . '`' );
                 }
             }
 
